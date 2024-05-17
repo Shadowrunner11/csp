@@ -29,17 +29,19 @@ app
       'Nombre del elemento': report.elementName,
     }))
 
+    // TODO: refactor maybe with open
     const filePath = join(__dirname,"../reports",`csp-${sessionId}.csv`)
     stat(filePath)
-      .then(({size})=>{
-        if(size)
-          return writeFile(filePath,papaparse.unparse(spanishData));
-        
-        return writeFile(filePath,papaparse.unparse(spanishData, {header: false}), {
-          flag: 'a'
-        });
-      })
-      .catch(()=> writeFile(filePath,papaparse.unparse(spanishData)))
+      .then(({size})=> [
+          filePath,
+          papaparse.unparse(spanishData, {
+            header: !size
+          }),
+          size? undefined : {flag: 'a'}
+        ]
+      )
+      .catch(()=> [filePath,papaparse.unparse(spanishData)])
+      .then(args => writeFile(...args))
     ;
   });
 
