@@ -19,8 +19,7 @@ app
   .use(json())
   .post('/reports', (req, res) => {
     res.sendStatus(200);
-    const { cspViolations } = req.body ?? {};
-    
+    const { cspViolations, sessionId } = req.body ?? {};
   
     const spanishData = cspViolations.map(report =>({
       'Directiva violada': report.violatedDirective,
@@ -30,7 +29,7 @@ app
       'Nombre del elemento': report.elementName,
     }))
   
-    writeFile(papaparse.unparse(spanishData));
+    writeFile(join(__dirname,"../reports",`csp-${sessionId}.csv`),papaparse.unparse(spanishData));
   });
 
 
