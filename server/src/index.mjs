@@ -36,9 +36,9 @@ app
 
 app
   .use(express.static(join(__dirname, '../../public'), {
-    setHeaders:()=>({
-        'Content-Security-Policy-Report-Only': 'default-src https:;'
-      })
+    setHeaders:(res)=>{
+      res.set('Content-Security-Policy-Report-Only', "default-src 'self';")
+    }
   }))
 ;
 app.listen(port, () => {
