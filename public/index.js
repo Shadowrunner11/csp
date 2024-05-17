@@ -1,3 +1,4 @@
+const sessionId = crypto.getRandomValues(new Uint32Array(1)).toString();
 
 const request = new Request('/reports', {
   method: 'POST',
@@ -20,8 +21,7 @@ const debounce = (callback, wait) => {
 
 
 const debouncedFetch = debounce((data) => {
-  request.body = data;
-  fetch(request)
+  fetch(request, {body: JSON.stringify(data)})
 }, 1500);
 
 document.addEventListener('securitypolicyviolation', (event)=>{
@@ -35,5 +35,5 @@ document.addEventListener('securitypolicyviolation', (event)=>{
 
   cspViolations.push(data);
 
-  debouncedFetch({cspViolations})
+  debouncedFetch({cspViolations, sessionId})
 })

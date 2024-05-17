@@ -39,6 +39,7 @@ app
           flag: 'a'
         });
       })
+      .catch(()=> writeFile(filePath,papaparse.unparse(spanishData)))
     ;
   });
 
