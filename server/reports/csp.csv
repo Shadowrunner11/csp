@@ -1,5 +1,0 @@
-Directiva violada,URI bloqueada,Directiva efectiva,Constructor,Nombre del elemento
-style-src-elem,inline,style-src-elem,HTMLStyleElement,STYLE
-script-src-elem,inline,script-src-elem,HTMLScriptElement,SCRIPT
-script-src-elem,inline,script-src-elem,HTMLDocument,#document
-script-src-elem,inline,script-src-elem,HTMLDocument,#document
