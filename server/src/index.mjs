@@ -1,6 +1,6 @@
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { writeFile } from 'fs/promises'
+import { writeFile, stat } from 'fs/promises'
 import express, { json } from 'express';
 import papaparse from 'papaparse';
     
@@ -28,8 +28,18 @@ app
       'Constructor': report.constructor,
       'Nombre del elemento': report.elementName,
     }))
-  
-    writeFile(join(__dirname,"../reports",`csp-${sessionId}.csv`),papaparse.unparse(spanishData));
+
+    const filePath = join(__dirname,"../reports",`csp-${sessionId}.csv`)
+    stat(filePath)
+      .then(({size})=>{
+        if(size)
+          return writeFile(filePath,papaparse.unparse(spanishData));
+        
+        return writeFile(filePath,papaparse.unparse(spanishData, {header: false}), {
+          flag: 'a'
+        });
+      })
+    ;
   });
 
 
